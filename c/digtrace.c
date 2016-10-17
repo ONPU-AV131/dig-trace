@@ -5,6 +5,7 @@
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <arpa/nameser.h>
+#include <arpa/nameser_compat.h>
 #include <arpa/inet.h>
 #include <resolv.h>
 #include <netdb.h>
