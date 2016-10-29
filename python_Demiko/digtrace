@@ -1,0 +1,44 @@
+#! /usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+import dns.resolver as dns
+import sys
+
+if len(sys.argv)==1:
+    print('No query')
+    exit()
+a = sys.argv[1]
+print('Query:',a)
+a = str.split(a,sep='.')
+a.reverse()
+accum=''
+query=[]
+for a in a:
+    accum=a+'.'+accum
+    query.append(accum)
+print()
+try:
+    ans=dns.query('.','NS')
+except Exception as e:
+    print(e)
+    exit()
+for i in ans:
+    print('.','TTL',ans.rrset.ttl,'IN NS',i)
+for a in query:
+    print()
+    try:
+        ans=dns.query(a,'NS')
+    except Exception as e:
+        print(e)
+        exit()
+    for i in ans:
+        print(a,'TTL',ans.rrset.ttl,'IN NS',i)
+
+print()
+try:
+    ans=dns.query(query[-1],'A')
+except Exception as e:
+    print(e)
+    exit()
+for i in ans:
+    print(query[-1],'TTL',ans.rrset.ttl,'IN A',i)
